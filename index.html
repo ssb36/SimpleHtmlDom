@@ -1,93 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Country Finder</title>
-    <style>
-      /* Write all necessery css here  */
-      #all_countries{
-        display: grid;
-        grid-template-columns: repeat(4,1fr);
-        grid-template-rows: auto;
-        grid-gap: 16px;
-        /* background-color: azure; */
-      };
-      /* #card{
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Country Finder</title>
+  <style>
+    /* Write all necessery css here  */
+    #all_countries {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      grid-gap: 16px;
+      /* background-color: azure; */
+    }
+
+    ;
+    /* #card{
         border: 1px solid red;
         width: 80%;
         margin-left: 100px;
         background-color: bisque;
       } */
-    </style>
-  </head>
-  <body>
-    <select id="sort_population">
-      <option value="">Sort By Population</option>
-      <option value="asc">ASC</option>
-      <option value="desc">DESC</option>
-    </select>
-    <select id="filter_region">
-      <option value="">Filter By Region</option>
-      <option value="Africa">Africa</option>
-      <option value="Americas">Americas</option>
-      <option value="Asia">Asia</option>
-      <option value="Europe">Europe</option>
-      <option value="Oceania">Oceania</option>
-    </select>
-    <div id="all_countries">
-      <!-- Append Country Cards here  -->
-    </div>
-  </body>
-  <script>
-    // Write all necessery JS here
-    const url = "https://restcountries.com/v3.1/all";
+  </style>
+</head>
 
-    fetchData();
-    
-    let apiData = [];
-    async function fetchData() {
+<body>
+  <select id="sort_population" onchange=sortApi();>
+    <option value="">Sort By Population</option>
+    <option value="asc">ASC</option>
+    <option value="desc">DESC</option>
+  </select>
+  <select id="filter_region" onchange=filterRegion();>
+    <option value="">Filter By Region</option>
+    <option value="Africa">Africa</option>
+    <option value="Americas">Americas</option>
+    <option value="Asia">Asia</option>
+    <option value="Europe">Europe</option>
+    <option value="Oceania">Oceania</option>
+  </select>
+  <div id="all_countries">
+    <!-- Append Country Cards here  -->
+  </div>
+</body>
+<script>
+  // Write all necessery JS here
+  const url = "https://restcountries.com/v3.1/all";
+  fetchData();
+  let apiData = [];
+  async function fetchData() {
 
-      let res = await fetch(url);
-      apiData = await res.json();
-      // console.log(apiData);
-      appendData(apiData);
-    }
+    let res = await fetch(url);
+    apiData = await res.json();
+    // console.log(apiData);
+    appendData(apiData);
+  }
 
-    function appendData(data) {
-      
-      document.getElementById("all_countries").innerText = "";
+  function appendData(data) {
 
-      let mainDiv = document.getElementById("all_countries");
+    document.getElementById("all_countries").innerText = "";
 
-      data.forEach(element => {
-        
-        let name = document.createElement("h3");
-        name.innerText = element.name.common;
+    let mainDiv = document.getElementById("all_countries");
 
-        let flag = document.createElement("img");
-        flag.src = element.flags.png;
-        
-        let population = document.createElement("p");
-        population.innerText = "Population:  " +element.population;
-        
+    data.forEach(element => {
 
-        let region = document.createElement("p");
-        region.innerText = "Region:  " + element.region;
+      let name = document.createElement("h3");
+      name.innerText = element.name.common;
 
-        let capital = document.createElement("p");
-        capital.innerText = "Capital:  " + element.capital;
+      let flag = document.createElement("img");
+      flag.src = element.flags.png;
 
-        let card = document.createElement("div");
-        // card.id = "card";
-        // card.backgroundColor = "black";
+      let population = document.createElement("p");
+      population.innerText = "Population:  " + element.population;
 
-        card.append(flag,name,population,region,capital);
-        mainDiv.append(card)
+
+      let region = document.createElement("p");
+      region.innerText = "Region:  " + element.region;
+
+      let capital = document.createElement("p");
+      capital.innerText = "Capital:  " + element.capital;
+
+      let card = document.createElement("div");
+      // card.id = "card";
+      // card.backgroundColor = "black";
+
+      card.append(flag, name, population, region, capital);
+      mainDiv.append(card)
+    });
+    // console.log(data.name);
+  }
+
+  function sortApi() {
+
+    let typeOfSort = document.getElementById("sort_population").value;
+
+    if (typeOfSort === "asc") {
+      apiData.sort((a, b) => {
+        return a.population - b.population;
       });
-      // console.log(data.name);
+    }
+    else if (typeOfSort === "desc") {
+      apiData.sort((a, b) => {
+        return b.population - a.population;
+      });
     }
 
-  </script>
+
+    appendData(apiData);
+  }
+
+  
+
+</script>
+
 </html>
