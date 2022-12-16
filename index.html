@@ -70,13 +70,20 @@
         flag.src = element.flags.png;
         
         let population = document.createElement("p");
-        population.innerText = element.population;
+        population.innerText = "Population:  " +element.population;
+        
+
+        let region = document.createElement("p");
+        region.innerText = "Region:  " + element.region;
+
+        let capital = document.createElement("p");
+        capital.innerText = "Capital:  " + element.capital;
 
         let card = document.createElement("div");
         // card.id = "card";
         // card.backgroundColor = "black";
 
-        card.append(flag,name,population);
+        card.append(flag,name,population,region,capital);
         mainDiv.append(card)
       });
       // console.log(data.name);
