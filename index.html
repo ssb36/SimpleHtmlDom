@@ -110,7 +110,18 @@
     appendData(apiData);
   }
 
-  
+  function filterRegion(){
+    
+    let filt = document.getElementById("filter_region").value;
+
+    let arr = apiData.filter((element) => {
+
+      if(element.region == filt){
+        return element;
+      }
+    })
+    appendData(arr);
+  }
 
 </script>
 
