@@ -7,6 +7,19 @@
     <title>Country Finder</title>
     <style>
       /* Write all necessery css here  */
+      #all_countries{
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        grid-template-rows: auto;
+        grid-gap: 16px;
+        /* background-color: azure; */
+      };
+      /* #card{
+        border: 1px solid red;
+        width: 80%;
+        margin-left: 100px;
+        background-color: bisque;
+      } */
     </style>
   </head>
   <body>
@@ -29,5 +42,45 @@
   </body>
   <script>
     // Write all necessery JS here
+    const url = "https://restcountries.com/v3.1/all";
+
+    fetchData();
+    
+    let apiData = [];
+    async function fetchData() {
+
+      let res = await fetch(url);
+      apiData = await res.json();
+      // console.log(apiData);
+      appendData(apiData);
+    }
+
+    function appendData(data) {
+      
+      document.getElementById("all_countries").innerText = "";
+
+      let mainDiv = document.getElementById("all_countries");
+
+      data.forEach(element => {
+        
+        let name = document.createElement("h3");
+        name.innerText = element.name.common;
+
+        let flag = document.createElement("img");
+        flag.src = element.flags.png;
+        
+        let population = document.createElement("p");
+        population.innerText = element.population;
+
+        let card = document.createElement("div");
+        // card.id = "card";
+        // card.backgroundColor = "black";
+
+        card.append(flag,name,population);
+        mainDiv.append(card)
+      });
+      // console.log(data.name);
+    }
+
   </script>
 </html>
